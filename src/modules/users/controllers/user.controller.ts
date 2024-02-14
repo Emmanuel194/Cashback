@@ -28,7 +28,7 @@ export const createUser = async (req: Request, res: Response) => {
   const user = userRepository.create({
     name,
     email,
-    password_hash: passwordHash,
+    password: passwordHash,
   } as DeepPartial<User>);
 
   try {
