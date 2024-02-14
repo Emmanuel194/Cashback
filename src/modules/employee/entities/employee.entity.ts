@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 
 @Entity("employee")
-export class employee {
+export class Employee {
   @PrimaryGeneratedColumn()
   employee_id: number;
 
@@ -25,7 +25,7 @@ export class employee {
   phone: string;
 
   @Column()
-  function: string;
+  functions: string;
 
   @Column()
   balance: string;
