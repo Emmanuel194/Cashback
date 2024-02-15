@@ -143,13 +143,21 @@ const verifyResetToken = (token: string, email: string): boolean => {
 
 // Rota para redefinir a senha
 export const resetPassword = async (req: Request, res: Response) => {
-  const { email, token, newPassword } = req.body;
+  const { email, token, password } = req.body;
 
   if (!verifyResetToken(token, email)) {
     return res.status(400).json({ message: "Token inválido ou expirado" });
   }
+  // buscar o user com email fornecido
 
+  const user = await AppDataSource.getRepository(User).findOne({
+    where: { email },
+  });
   // LOGICA UPDATEUSER PASSWORD BANCO DE DADOS.
+
+  const newPassword = await bcrypt.hash(password, 10);
+  user.password = newPassword;
+  await AppDataSource.getRepository(User).save(user);
 
   return res.status(200).json({ message: "Senha atualizada com sucesso" });
 };
