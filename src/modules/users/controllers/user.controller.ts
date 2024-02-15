@@ -149,7 +149,15 @@ export const resetPassword = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Token inválido ou expirado" });
   }
 
+  // buscar o user com email fornecido
+
+  const user = await userRepository.findOne({ where: { email } });
+
   // LOGICA UPDATEUSER PASSWORD BANCO DE DADOS.
+
+  const newPassword = await bcrypt.hash(newPassword, 10);
+  user.password = newPassword;
+  await userRepository.save(user);
 
   return res.status(200).json({ message: "Senha atualizada com sucesso" });
 };
