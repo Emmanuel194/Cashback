@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { AppDataSource } from "../../../banco";
-import { User } from "../../modules/users/entities/user.entity";
+import User from "../../modules/users/entities/user.entity";
 
 export async function validateJwtUser(
   req: Request,
