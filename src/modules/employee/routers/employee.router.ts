@@ -2,7 +2,7 @@ import { Router } from "express";
 import verifyFields from "../middlewares/verifyFields";
 import EmployeeController from "../controllers/employee.controller";
 
-export const EmployeeRouters = (): Router => {
+const EmployeeRouters = (): Router => {
     const router = Router();
 
     router.post("/", verifyFields, EmployeeController.createEmployee);

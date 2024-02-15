@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToMany,
 } from "typeorm";
+
+import { Balance } from "../../balance/entities/balance.entity";
 
 @Entity("employee")
 export class Employee {
@@ -27,8 +30,8 @@ export class Employee {
   @Column()
   functions: string;
 
-  @Column()
-  balance: string;
+  @OneToMany(() => Balance, (balance) => balance.client)
+  balances: Balance[];
 
   @CreateDateColumn()
   created_at: Date;
