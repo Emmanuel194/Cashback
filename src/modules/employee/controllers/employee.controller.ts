@@ -4,20 +4,6 @@ import * as bcrypt from "bcrypt";
 import { AppDataSource } from "../../../../banco";
 import { Employee } from "../entities/employee.entity";
 
-const messages = {
-    "EMPLOYEE_ALREADY_REGISTERED": "Employee is already registered.",
-    "ERROR_CREATING": "Error trying to create.",
-    "NOT_FOUND": "Not found.",
-    "ERROR_LISTING_EMPLOYEES": "Error trying to list employees.",
-    "ERROR_UPDATING": "Error trying to update.",
-    "ERROR_DELETING": "Error trying to delete.",
-    "SUCCESS_CREATING": "Successfully created.",
-    "SUCCESS_UPDATING": "Successfully updated.",
-    "SUCCESS_DELETING": "Successfully deleted.",
-    "SUCCESS_LISTING_EMPLOYEES": "Successfully listed all employees.",
-    "SUCCESS_FOUND_EMPLOYEE": "Successfully found the employee.",
-};
-
 const respository = AppDataSource.getRepository(Employee);
 export default new class EmployeeController {
     async createEmployee(req: Request, res: Response){
@@ -130,3 +116,17 @@ export default new class EmployeeController {
         }
       }
 }
+
+const messages = {
+    "EMPLOYEE_ALREADY_REGISTERED": "Employee is already registered.",
+    "ERROR_CREATING": "Error trying to create.",
+    "NOT_FOUND": "Not found.",
+    "ERROR_LISTING_EMPLOYEES": "Error trying to list employees.",
+    "ERROR_UPDATING": "Error trying to update.",
+    "ERROR_DELETING": "Error trying to delete.",
+    "SUCCESS_CREATING": "Successfully created.",
+    "SUCCESS_UPDATING": "Successfully updated.",
+    "SUCCESS_DELETING": "Successfully deleted.",
+    "SUCCESS_LISTING_EMPLOYEES": "Successfully listed all employees.",
+    "SUCCESS_FOUND_EMPLOYEE": "Successfully found the employee.",
+};
