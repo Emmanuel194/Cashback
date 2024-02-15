@@ -7,7 +7,7 @@ import { Employee } from "../entities/employee.entity";
 const respository = AppDataSource.getRepository(Employee);
 export default new class EmployeeController {
     async createEmployee(req: Request, res: Response){
-        const { name, password, email, phone, functions, balance} = req.body;
+        const { name, password, email, phone, functions} = req.body;
         try {
             const exists = await (async function(email, phone) {
                 return (await Promise.race([ 
@@ -31,7 +31,6 @@ export default new class EmployeeController {
                 email, 
                 phone, 
                 functions,
-                balance
             });
 
         }catch(error){
@@ -66,7 +65,7 @@ export default new class EmployeeController {
 
     async updateEmployee(req: Request, res: Response){
         const {id} = req.params;
-        const {name, password, email, phone, functions, balance} = req.body;
+        const {name, password, email, phone, functions} = req.body;
 
         try {
             const employee = await respository.findOne({where: {employee_id: +id}});
@@ -80,7 +79,6 @@ export default new class EmployeeController {
             if(email) employee.email = email;
             if(phone) employee.phone = phone;
             if(functions) employee.functions = functions;
-            if(balance) employee.balance = balance;
 
             await respository.save(employee);
             return res.status(200).json({

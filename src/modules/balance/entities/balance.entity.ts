@@ -20,7 +20,7 @@ export class Balance {
     date: Date;
 
     @Column({type: 'time'})
-    time: string
+    time: Date;
 
     @Column()
     company: string
@@ -34,8 +34,8 @@ export class Balance {
     @Column({type: 'decimal', precision: 5, scale: 2})
     cashbackPercentage: number;
 
-    @Column({type: 'decimal', precision: 5, scale: 2})
-    cachbackReceived: number;
+    @Column({type: 'decimal', precision: 5, scale: 2, default: 0})
+    cashbackReceived: number;
 
     @ManyToOne(() => Client, (client) => client.balances)
     client: Client;

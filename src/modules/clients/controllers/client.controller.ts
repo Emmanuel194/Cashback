@@ -22,13 +22,12 @@ export default new class ClientController {
         }
 
         try {
-            const client = await repository.save({
+            await repository.save({
                 name, cpf, phone
             });
             return res.status(201).json({
                 ok: true,
                 message: "customer successfully registered.",
-                client
             });
         }catch(error){
             console.error(error);
