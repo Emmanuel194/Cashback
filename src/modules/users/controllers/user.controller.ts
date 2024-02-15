@@ -1,4 +1,4 @@
-import { Request, Response, request } from "express";
+import { Request, Response } from "express";
 import * as bcrypt from "bcrypt";
 import User from "../entities/user.entity";
 import { AppDataSource } from "../../../../banco";
@@ -76,15 +76,17 @@ export const login = async (request: Request, response: Response) => {
 
 // Função para verificar se o email existe
 export const checkEmailExists = async (req: Request, res: Response) => {
-  const { email } = request.body;
+  const { email } = req.body;
   try {
     const existingUser = await AppDataSource.getRepository(User).find({
       where: {
         email,
       },
     });
-    if (existingUser) {
-      return res.redirect("/email.controller.ts");
+    if (existingUser.length > 0) {
+      const userEmail = existingUser[0].email;
+      sendPasswordResetEmail(userEmail);
+      return res.status(200).json({ message: "Email Envied" });
     } else {
       return res.status(404).json({ message: "Email not found" });
     }
@@ -94,16 +96,13 @@ export const checkEmailExists = async (req: Request, res: Response) => {
   }
 };
 
-// * Função para enviar email de confirmação
-export const sendPasswordResetEmail = async (req: Request, res: Response) => {
+//  Função para enviar email de confirmação
+export const sendPasswordResetEmail = async (email: string) => {
   try {
-    const { email } = req.body;
-
-    // * Crie um token JWT com o email (substitua pela sua chave secreta real)
     const secretKey = "KHBDASHD912731237N9S7";
     const token = jwt.sign({ email }, secretKey, { expiresIn: "1h" });
 
-    // Configurações do Nodemailer (substitua pelas suas configurações reais)
+    // Configurações do Nodemailer)
     const transporter = nodemailer.createTransport({
       service: "Gmail",
       auth: {
@@ -112,7 +111,6 @@ export const sendPasswordResetEmail = async (req: Request, res: Response) => {
       },
     });
 
-    // Opções do email
     const mailOptions = {
       from: "suportebellitate@gmail.com",
       to: email,
@@ -121,16 +119,39 @@ export const sendPasswordResetEmail = async (req: Request, res: Response) => {
       html: `<p>Clique no link para redefinir sua senha!</p>${token}`,
     };
 
-    // Envie o email
     await transporter.sendMail(mailOptions);
 
-    return res
-      .status(200)
-      .json({ message: "Email de confirmação enviado com sucesso" });
+    console.log("Email enviado com sucesso!");
   } catch (error) {
-    console.error("Erro ao enviar email de confirmação:", error);
-    return res.status(500).json({ message: "Erro interno do servidor" });
+    console.error("Erro ao enviar email de redefinição:", error);
   }
+};
+
+// Função para verificar jwt + email 'POST'.
+
+const verifyResetToken = (token: string, email: string): boolean => {
+  try {
+    const secretKey = "KHBDASHD912731237N9S7";
+    const decodedToken = jwt.verify(token, secretKey) as { email: string };
+
+    return decodedToken.email === email;
+  } catch (error) {
+    console.error("Erro ao verificar token:", error);
+    return false;
+  }
+};
+
+// Rota para redefinir a senha
+export const resetPassword = async (req: Request, res: Response) => {
+  const { email, token, newPassword } = req.body;
+
+  if (!verifyResetToken(token, email)) {
+    return res.status(400).json({ message: "Token inválido ou expirado" });
+  }
+
+  // LOGICA UPDATEUSER PASSWORD BANCO DE DADOS.
+
+  return res.status(200).json({ message: "Senha atualizada com sucesso" });
 };
 
 // * get all users
