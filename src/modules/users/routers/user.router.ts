@@ -12,8 +12,10 @@ import {
   authenticate,
   checkEmailExists,
   resetPassword,
+  sendPasswordResetEmail,
 } from "../controllers/user.controller";
 
+router.post("/sendPasswordResetEmail", sendPasswordResetEmail);
 router.post("/resetPassword", resetPassword);
 router.post("/checkEmailExists", checkEmailExists);
 router.post("/users", createUser);

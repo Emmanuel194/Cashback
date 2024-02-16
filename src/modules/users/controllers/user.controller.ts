@@ -104,15 +104,15 @@ export const sendPasswordResetEmail = async (email: string) => {
 
     // Configurações do Nodemailer)
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      service: "hotmail",
       auth: {
-        user: "suportebellitate@gmail.com",
+        user: "suporte.bellitate@hotmail.com",
         pass: "bellitate123",
       },
     });
 
     const mailOptions = {
-      from: "suportebellitate@gmail.com",
+      from: "suporte.bellitate@hotmail.com",
       to: email,
       subject: "Redefinição de Senha",
       text: "Clique no link para redefinir sua senha",
@@ -153,6 +153,10 @@ export const resetPassword = async (req: Request, res: Response) => {
   const user = await AppDataSource.getRepository(User).findOne({
     where: { email },
   });
+  if (!user) {
+    return res.status(404).json({ message: "Usuário não encontrado" });
+  }
+
   // LOGICA UPDATEUSER PASSWORD BANCO DE DADOS.
 
   const newPassword = await bcrypt.hash(password, 10);
