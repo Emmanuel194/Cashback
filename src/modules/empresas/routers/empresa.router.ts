@@ -1,13 +1,10 @@
 import { Router } from "express";
-import { EmpresaController } from "./empresa.controller.ts";
+import empresaController from "../controllers/empresa.controller";
+
 
 const empresaRouter = Router();
-const empresaController = new EmpresaController();
 
-empresaRouter.get("/", empresaController.getAllEmpresas);
-empresaRouter.get("/:id", empresaController.getEmpresaById);
-empresaRouter.post("/", empresaController.createEmpresa);
-empresaRouter.put("/:id", empresaController.updateEmpresa);
-empresaRouter.delete("/:id", empresaController.deleteEmpresa);
+empresaRouter.post("/empresa", empresaController.createEmpresa);
+empresaRouter.get("/empresa", empresaController.getAllEmpresas);
 
 export default empresaRouter;

@@ -11,6 +11,8 @@ import {
 import { Client } from '../../clients/entities/client.entity';
 import { Employee } from '../../employee/entities/employee.entity';
 
+import { Empresa } from '../../empresas/entities/empresas.entity';
+
 @Entity("balance")
 export class Balance {
     @PrimaryGeneratedColumn()
@@ -24,6 +26,9 @@ export class Balance {
 
     @Column()
     company: string
+
+    @Column()
+    company_id: number;
 
     @Column({type: 'enum', enum: ["Debit", "Credit"]})
     transactionType: "Debit" | "Credit"
@@ -42,6 +47,9 @@ export class Balance {
 
     @ManyToOne(() => Employee, (employee) => employee.balances)
     employee: Employee;
+
+    @ManyToOne(() => Empresa, (empresa) => empresa.balances)
+    empresa: Empresa;
 
     @CreateDateColumn()
     created_at: Date;
