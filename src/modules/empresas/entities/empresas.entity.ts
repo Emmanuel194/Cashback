@@ -24,11 +24,11 @@ export class Empresa {
   @Column({ nullable: true })
   cnpj?: string;
 
-  @Column()
+  @Column({type: "decimal"})
   percentual_cashback: number;
 
   @OneToMany(() => Balance, (balance) => balance.empresa)
-  balances: Balance[];
+  balances: Balance[]
 
   @CreateDateColumn()
   created_at: Date;

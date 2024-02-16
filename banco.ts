@@ -7,6 +7,8 @@ import { Employee } from "./src/modules/employee/entities/employee.entity";
 import { Client } from "./src/modules/clients/entities/client.entity";
 import { Balance } from "./src/modules/balance/entities/balance.entity";
 
+import { Empresa } from "./src/modules/empresas/entities/empresas.entity";
+
 import { DataSource } from "typeorm";
 
 export const AppDataSource = new DataSource({
@@ -16,7 +18,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  entities: [User, Employee, Client, Balance],
+  entities: [User, Employee, Client, Balance, Empresa],
   synchronize: true,
 });
 

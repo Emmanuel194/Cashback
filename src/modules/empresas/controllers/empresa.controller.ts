@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../../../../banco";
-import { Empresa } from "./entities./empresa.entities.ts";
+import { Empresa } from "../entities/empresas.entity";
 
 const repository = AppDataSource.getRepository(Empresa);
 
-export default new (class EmpresaController {
+export default new class EmpresaController {
   async createEmpresa(req: Request, res: Response) {
-    const { nome, cnpj, percentual_cashback } = req.body;
+    const { nome, cnpj, endereco, percentual_cashback } = req.body;
 
-    const [cnpjExists] = await Promise.all([repository.findOneBy({ cnpj })]);
+    const cnpjExists = await repository.findOneBy({ cnpj });
 
     if (cnpjExists) {
       return res.status(400).json({
@@ -21,6 +21,7 @@ export default new (class EmpresaController {
       await repository.save({
         nome,
         cnpj,
+        endereco,
         percentual_cashback,
       });
       return res.status(201).json({
@@ -59,4 +60,4 @@ export default new (class EmpresaController {
       });
     }
   }
-})();
+}
